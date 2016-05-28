@@ -5,8 +5,7 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
-        l = sorted([ [x,i] for i,x in enumerate(nums)])
-        print(l)
+        l = [ [x,i] for i,x in enumerate(nums)]
         size = len(nums)
         dic = {}
         for i in range(0,size):
