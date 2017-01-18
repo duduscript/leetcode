@@ -8,21 +8,30 @@
 class Solution(object):
     def __init__(self):
         self.trees = {0:[None]}
-    def TreePlus(self, root, n):
-        if root == None:
-            return
-        root.val += n
-        self.TreePlus(root.left, n)
-        self.TreePlus(root.right, n)
-    def InOnderMap(self, tree):
-        pass
+    def copy(self, tree):
+        if tree == None:return None
+        root = TreeNode(tree.val)
+        root.left = self.copy(tree.left)
+        root.right = self.copy(tree.right)
+        return root
+    def InOrderTravel(self, tree, n=0):
+        if tree == None:return n
+        mid = self.InOrderTravel(tree.left,n)
+        tree.val = mid+1
+        return self.InOrderTravel(tree.right,mid+1)
+    def InOrderTrip(self, copytree):
+        tree = self.copy(copytree)
+        self.InOrderTravel(tree,0)
+        return tree
     def generateTrees(self, n):
         """
         :type n: int
         :rtype: List[TreeNode]
         """
+        if n == 0:
+            return []
         if n in self.trees:
-            return trees[n]
+            return map(self.InOrderTrip,self.trees[n])
         lefts,right,rtn = [],[],[]
         for i in xrange(n):
             if i in self.trees:
@@ -41,4 +50,4 @@ class Solution(object):
                     root.left = left
                     root.right = right
                     rtn.append(root)
-        return map(self.InOrderMap,rtn)
+        return map(self.InOrderTrip,rtn)
